@@ -1,0 +1,23 @@
+{{- if .Values.persistantVolume.enabled -}}
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "jupyterScala.fullname" . }}
+  labels:
+    app: {{ template "jupyterScala.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistantVolume.size }}
+  storageClassName: {{ .Values.persistantVolume.storageClass }}
+  selector:
+    matchLabels:
+      release: {{ .Release.Name }}
+
+{{- end -}}

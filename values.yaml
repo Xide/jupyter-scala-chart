@@ -1,0 +1,43 @@
+
+
+# Notebook password, deactivated by default
+# Persisted as a Kubernetes Secret, mounted via env.
+notebookPassword: ""
+
+persistantVolume:
+  enabled: true
+  storageClass: standard
+  size: 1Gi
+
+replicaCount: 1
+image:
+  repository: dockoey/jupyter-scala
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  # If you set this variable, the service name will
+  # be fixed ( Note that you won't be able to deploy
+  # this chart multiple time with the same fixedName)
+  # If you let it empty, the service name will be generated
+  # with the chart name and the release.
+  fixedName: ""
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 8888
+ingress:
+  enabled: true
+  # Used to create an Ingress record.
+  hosts:
+    - jupyter-scala.local
+  annotations:
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+resources: {}
+  # If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
